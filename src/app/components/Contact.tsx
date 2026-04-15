@@ -31,40 +31,51 @@ const Toast = ({ message, type, onClose }: { message: string; type: "success" | 
                 alignItems: "center",
                 gap: "12px",
                 padding: "16px 20px",
-                background: "rgba(10, 10, 10, 0.85)",
+                background: "var(--bg-glass)",
                 backdropFilter: "blur(24px)",
-                border: `1px solid ${type === "success" ? "rgba(255,255,255,0.15)" : "rgba(248,113,113,0.25)"}`,
-                borderRadius: "16px",
-                boxShadow: "0 24px 48px rgba(0,0,0,0.5)",
-                minWidth: "300px",
+                border: `1px solid ${type === "success" ? "var(--border-subtle)" : "rgba(248,113,113,0.3)"}`,
+                borderRadius: "20px",
+                boxShadow: "0 24px 48px rgba(0,0,0,0.3)",
+                minWidth: "320px",
             }}
         >
             <div style={{
-                width: "40px", height: "40px", borderRadius: "12px",
-                background: type === "success" ? "rgba(255,255,255,0.08)" : "rgba(248,113,113,0.1)",
+                width: "44px", height: "44px", borderRadius: "14px",
+                background: type === "success" ? "var(--accent-dim)" : "rgba(248,113,113,0.1)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                color: type === "success" ? "#fff" : "#f87171",
-                fontSize: "1.2rem", flexShrink: 0
+                color: type === "success" ? "var(--accent)" : "#f87171",
+                fontSize: "1.3rem", flexShrink: 0,
+                boxShadow: type === "success" ? "0 0 15px var(--accent-dim)" : "none"
             }}>
                 {type === "success" ? <FiCheckCircle /> : <FiInfo />}
             </div>
             <div style={{ flex: 1 }}>
-                <p style={{ margin: 0, fontSize: "0.9rem", color: "#fff", fontWeight: 600 }}>
-                    {type === "success" ? "Message sent!" : "Something went wrong"}
+                <p style={{ margin: 0, fontSize: "0.95rem", color: "var(--text-primary)", fontWeight: 700, letterSpacing: "-0.01em" }}>
+                    {type === "success" ? "Success!" : "Action Failed"}
                 </p>
-                <p style={{ margin: 0, fontSize: "0.78rem", color: "#666", marginTop: "2px" }}>{message}</p>
+                <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "2px" }}>{message}</p>
             </div>
-            <button onClick={onClose} style={{ background: "none", border: "none", color: "#444", cursor: "pointer", padding: "4px", lineHeight: 1 }}>
-                <FiX />
+            <button 
+                onClick={onClose} 
+                style={{ 
+                    background: "none", border: "none", color: "var(--text-muted)", 
+                    cursor: "pointer", padding: "6px", borderRadius: "50%",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    transition: "all 0.2s"
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                onMouseOut={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+            >
+                <FiX size={18} />
             </button>
             <motion.div
                 initial={{ width: "100%" }}
                 animate={{ width: "0%" }}
                 transition={{ duration: 5, ease: "linear" }}
                 style={{
-                    position: "absolute", bottom: 0, left: 0, height: "2px",
-                    background: type === "success" ? "#fff" : "#f87171",
-                    opacity: 0.2, borderRadius: "0 0 16px 16px"
+                    position: "absolute", bottom: -1, left: "20px", right: "20px", height: "2px",
+                    background: type === "success" ? "var(--accent)" : "#f87171",
+                    opacity: 0.5, borderRadius: "12px"
                 }}
             />
         </motion.div>
@@ -387,18 +398,22 @@ export default function Contact() {
                                     disabled={status === "loading"}
                                     style={{
                                         width: "100%", padding: "17px",
-                                        background: status === "loading" ? "rgba(255,255,255,0.08)" : "var(--accent)",
-                                        color: status === "loading" ? "#555" : "var(--bg-primary)",
+                                        background: status === "loading" ? "var(--bg-elevated)" : "var(--accent)",
+                                        color: status === "loading" ? "var(--text-muted)" : "var(--bg-primary)",
                                         borderRadius: "16px",
                                         fontWeight: 700, fontSize: "0.95rem",
                                         display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
                                         cursor: status === "loading" ? "not-allowed" : "pointer",
-                                        border: "1px solid rgba(255,255,255,0.1)",
-                                        boxShadow: status === "loading" ? "none" : "0 8px 32px rgba(255,255,255,0.08)",
-                                        transition: "all 0.25s",
+                                        border: "1px solid var(--border-subtle)",
+                                        boxShadow: status === "loading" ? "none" : "0 8px 32px var(--accent-dim)",
+                                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                         letterSpacing: "0.01em",
                                     }}
-                                    whileHover={status !== "loading" ? { y: -2, boxShadow: "0 16px 48px rgba(255,255,255,0.15)" } : {}}
+                                    whileHover={status !== "loading" ? { 
+                                        y: -2, 
+                                        boxShadow: "0 16px 48px var(--accent-dim)",
+                                        filter: "brightness(1.1)"
+                                    } : {}}
                                     whileTap={{ scale: 0.98 }}
                                 >
                                     {status === "loading" ? (
