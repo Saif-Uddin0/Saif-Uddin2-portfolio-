@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { FiMail, FiMapPin, FiGithub, FiLinkedin, FiPhone, FiCheckCircle, FiArrowRight, FiX, FiInfo, FiSend } from "react-icons/fi";
+import { FiMail, FiMapPin, FiGithub, FiLinkedin, FiPhone, FiCheckCircle, FiArrowRight, FiX, FiInfo, FiSend, FiExternalLink } from "react-icons/fi";
 
 const contactInfo = [
     { icon: <FiMail />, label: "Email", value: "mahirr.846@gmail.com", href: "mailto:mahirr.846@gmail.com" },
@@ -10,7 +10,69 @@ const contactInfo = [
     { icon: <FiPhone />, label: "Availability", value: "Open for Collaboration", href: "#" },
 ];
 
-// ── Toast ────────────────────────────────────────────────────────────────────
+// ── Success Modal ──────────────────────────────────────────────────────────────
+const SuccessModal = ({ onClose }: { onClose: () => void }) => {
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl"
+        >
+            <motion.div
+                initial={{ scale: 0.9, y: 20, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.9, y: 20, opacity: 0 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className="relative w-full max-w-[500px] overflow-hidden rounded-[32px] border border-white/10 bg-[#080816] p-10 text-center shadow-[0_32px_80px_rgba(0,0,0,0.8)]"
+            >
+                {/* Background Glow */}
+                <div className="absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 bg-cyan-500/10 blur-[100px]" />
+                
+                <div className="relative z-10">
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1.1 }}
+                        transition={{ delay: 0.2, type: "spring", stiffness: 400 }}
+                        className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.2)]"
+                    >
+                        <FiCheckCircle size={44} />
+                    </motion.div>
+
+                    <h2 className="mt-8 text-3xl font-bold tracking-tight text-white">Message Delivered!</h2>
+                    <p className="mt-4 text-base leading-relaxed text-neutral-400">
+                        Thanks for reaching out! I've received your message and will get back to you personally within <span className="text-cyan-400 font-semibold">24–48 hours</span>.
+                    </p>
+
+                    <div className="mt-10 flex flex-col gap-3">
+                        <button
+                            onClick={onClose}
+                            className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-4 text-sm font-bold text-black transition-all hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                            Continue Browsing
+                            <FiArrowRight className="transition-transform group-hover:translate-x-1" />
+                        </button>
+                        <a 
+                            href="https://linkedin.com/in/saif-uddin0/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/5 bg-white/5 py-4 text-sm font-semibold text-white/70 transition-all hover:bg-white/10 hover:text-white"
+                        >
+                            Connect on LinkedIn
+                            <FiExternalLink size={14} />
+                        </a>
+                    </div>
+                </div>
+
+                <div className="mt-8 text-[10px] uppercase tracking-widest text-white/20">
+                    Portfolio of Saif Uddin • MERN Specialist
+                </div>
+            </motion.div>
+        </motion.div>
+    );
+};
+
+// ── Toast (For Errors) ────────────────────────────────────────────────────────
 const Toast = ({ message, type, onClose }: { message: string; type: "success" | "error"; onClose: () => void }) => {
     useEffect(() => {
         const timer = setTimeout(onClose, 5000);
@@ -23,61 +85,29 @@ const Toast = ({ message, type, onClose }: { message: string; type: "success" | 
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
             style={{
-                position: "fixed",
-                top: "40px",
-                right: "40px",
-                zIndex: 9999,
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                padding: "16px 20px",
-                background: "var(--bg-glass)",
-                backdropFilter: "blur(24px)",
-                border: `1px solid ${type === "success" ? "var(--border-subtle)" : "rgba(248,113,113,0.3)"}`,
-                borderRadius: "20px",
-                boxShadow: "0 24px 48px rgba(0,0,0,0.3)",
-                minWidth: "320px",
+                position: "fixed", top: "40px", right: "40px", zIndex: 9999,
+                display: "flex", alignItems: "center", gap: "12px", padding: "16px 20px",
+                background: "var(--bg-glass)", backdropFilter: "blur(24px)",
+                border: "1px solid rgba(248,113,113,0.3)", borderRadius: "20px",
+                boxShadow: "0 24px 48px rgba(0,0,0,0.3)", minWidth: "320px",
             }}
         >
             <div style={{
                 width: "44px", height: "44px", borderRadius: "14px",
-                background: type === "success" ? "var(--accent-dim)" : "rgba(248,113,113,0.1)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                color: type === "success" ? "var(--accent)" : "#f87171",
-                fontSize: "1.3rem", flexShrink: 0,
-                boxShadow: type === "success" ? "0 0 15px var(--accent-dim)" : "none"
+                background: "rgba(248,113,113,0.1)", display: "flex", alignItems: "center", justifyContent: "center",
+                color: "#f87171", fontSize: "1.3rem", flexShrink: 0,
             }}>
-                {type === "success" ? <FiCheckCircle /> : <FiInfo />}
+                <FiInfo />
             </div>
             <div style={{ flex: 1 }}>
-                <p style={{ margin: 0, fontSize: "0.95rem", color: "var(--text-primary)", fontWeight: 700, letterSpacing: "-0.01em" }}>
-                    {type === "success" ? "Success!" : "Action Failed"}
+                <p style={{ margin: 0, fontSize: "0.95rem", color: "var(--text-primary)", fontWeight: 700 }}>
+                    Action Failed
                 </p>
-                <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "2px" }}>{message}</p>
+                <p style={{ margin: 0, fontSize: "0.80rem", color: "var(--text-secondary)", marginTop: "2px" }}>{message}</p>
             </div>
-            <button 
-                onClick={onClose} 
-                style={{ 
-                    background: "none", border: "none", color: "var(--text-muted)", 
-                    cursor: "pointer", padding: "6px", borderRadius: "50%",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    transition: "all 0.2s"
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
-                onMouseOut={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-            >
+            <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer" }}>
                 <FiX size={18} />
             </button>
-            <motion.div
-                initial={{ width: "100%" }}
-                animate={{ width: "0%" }}
-                transition={{ duration: 5, ease: "linear" }}
-                style={{
-                    position: "absolute", bottom: -1, left: "20px", right: "20px", height: "2px",
-                    background: type === "success" ? "var(--accent)" : "#f87171",
-                    opacity: 0.5, borderRadius: "12px"
-                }}
-            />
         </motion.div>
     );
 };
@@ -100,98 +130,47 @@ const FormField = ({ label, name, type = "text", value, placeholder, onChange, r
 
     return (
         <div style={{ position: "relative", marginBottom: "32px" }}>
-            {/* Floating label */}
             <label style={{
-                display: "block",
-                fontSize: "0.68rem",
-                fontWeight: 700,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                marginBottom: "8px",
-                transition: "color 0.25s",
-                color: isFocused ? "#ffffff" : hasValue ? "#aaa" : "#444",
+                display: "block", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.16em",
+                textTransform: "uppercase", marginBottom: "8px", color: isFocused ? "#ffffff" : hasValue ? "#aaa" : "#444",
             }}>
                 {label}
             </label>
 
             {textarea ? (
                 <textarea
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    required={required}
-                    rows={4}
-                    placeholder={placeholder}
-                    style={{
-                        width: "100%",
-                        padding: "14px 0 14px",
-                        background: "transparent",
-                        border: "none",
-                        borderBottom: `1px solid ${isFocused ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.07)"}`,
-                        color: "#fff",
-                        fontSize: "1rem",
-                        outline: "none",
-                        resize: "none",
-                        fontFamily: "inherit",
-                        lineHeight: 1.6,
-                        transition: "border-color 0.3s",
-                        boxSizing: "border-box",
-                    }}
+                    name={name} value={value} onChange={onChange} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)}
+                    required={required} rows={4} placeholder={placeholder}
+                    className="w-full bg-transparent border-none border-b border-white/10 text-white text-base outline-none transition-all p-0 py-3"
+                    style={{ borderBottom: `1px solid ${isFocused ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.1)"}` }}
                 />
             ) : (
                 <input
-                    type={type}
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    required={required}
-                    placeholder={placeholder}
-                    style={{
-                        width: "100%",
-                        padding: "14px 0",
-                        background: "transparent",
-                        border: "none",
-                        borderBottom: `1px solid ${isFocused ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.07)"}`,
-                        color: "#fff",
-                        fontSize: "1rem",
-                        outline: "none",
-                        fontFamily: "inherit",
-                        transition: "border-color 0.3s",
-                        boxSizing: "border-box",
-                    }}
+                    type={type} name={name} value={value} onChange={onChange} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)}
+                    required={required} placeholder={placeholder}
+                    className="w-full bg-transparent border-none border-b border-white/10 text-white text-base outline-none transition-all p-0 py-3"
+                    style={{ borderBottom: `1px solid ${isFocused ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.1)"}` }}
                 />
             )}
 
-            {/* Animated underline */}
             <motion.div
                 initial={false}
                 animate={{ scaleX: isFocused ? 1 : 0 }}
-                style={{
-                    position: "absolute", bottom: 0, left: 0, right: 0,
-                    height: "1px",
-                    background: "#ffffff",
-                    transformOrigin: "left",
-                    boxShadow: "0 0 12px rgba(255,255,255,0.4)",
-                }}
+                style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "#ffffff", transformOrigin: "left", boxShadow: "0 0 12px rgba(255,255,255,0.4)" }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
             />
         </div>
     );
 };
 
-// ── Contact ───────────────────────────────────────────────────────────────────
 export default function Contact() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [toast, setToast] = useState<{ message: string; type: "error" } | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -208,21 +187,19 @@ export default function Contact() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
-            const result = await response.json();
 
             if (response.ok) {
                 setStatus("idle");
                 setFormData({ name: "", email: "", subject: "", message: "" });
-                setToast({ message: "I'll get back to you within 24–48 hours.", type: "success" });
+                setShowSuccess(true);
             } else {
+                const result = await response.json();
                 setStatus("error");
-                setErrorMessage(result.error || "Something went wrong.");
                 setToast({ message: result.error || "Failed to send message.", type: "error" });
                 setTimeout(() => setStatus("idle"), 3000);
             }
         } catch {
             setStatus("error");
-            setErrorMessage("Failed to send message.");
             setToast({ message: "Network error. Please try again.", type: "error" });
             setTimeout(() => setStatus("idle"), 3000);
         }
@@ -230,202 +207,106 @@ export default function Contact() {
 
     return (
         <section id="contact" className="section" style={{ position: "relative", zIndex: 1 }}>
-            {/* Toast */}
+            {/* Modal & Toast */}
             <AnimatePresence>
-                {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+                {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
+                {toast && <Toast message={toast.message} type="error" onClose={() => setToast(null)} />}
             </AnimatePresence>
 
             <div className="container-custom" ref={ref}>
-                <div style={{ display: "grid", gridTemplateColumns: "0.8fr 1.2fr", gap: "80px" }} className="contact-grid">
+                <div className="contact-grid grid grid-cols-1 xl:grid-cols-[0.8fr_1.2fr] gap-20">
 
-                    {/* ── Left: Info ── */}
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+                    {/* Left: Info */}
+                    <div className="flex flex-col gap-10">
                         <motion.div
                             initial={{ opacity: 0, y: 24 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.8 }}
-                            className="flex flex-col items-center xl:items-start"
                         >
-                            {/* Section label */}
-                            <div style={{
-                                display: "inline-flex", alignItems: "center", gap: "8px",
-                                background: "rgba(255,255,255,0.04)",
-                                border: "1px solid rgba(255,255,255,0.08)",
-                                borderRadius: "100px", padding: "6px 14px",
-                                marginBottom: "28px",
-                            }}>
-                                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#fff", display: "inline-block" }} />
-                                <span style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#888" }}>
-                                    Available for Work
-                                </span>
+                            <div className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-1.5 mb-6">
+                                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                                <span className="text-[10px] uppercase tracking-widest font-bold text-neutral-500">Available For Work</span>
                             </div>
 
-                            <h2
-                                className="text-center xl:text-left"
-                                style={{
-                                    fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
-                                    fontWeight: 700, lineHeight: 1.05,
-                                    marginBottom: "20px", letterSpacing: "-0.03em"
-                                }}
-                            >
+                            <h2 className="text-5xl xl:text-7xl font-bold tracking-tighter leading-none mb-6">
                                 Let&apos;s build <br />
-                                <span style={{ color: "#444" }}>something great.</span>
+                                <span className="text-neutral-700 dark:text-neutral-500">something great.</span>
                             </h2>
-                            <p className="text-center xl:text-left" style={{ color: "#666", maxWidth: "380px", fontSize: "1rem", lineHeight: 1.7 }}>
-                                I&apos;m currently open to new opportunities and collaborations. Drop me a line and let&apos;s start a conversation.
+                            <p className="text-neutral-500 max-w-sm leading-relaxed text-lg">
+                                Currently open to new opportunities and world-class collaborations. Drop a line and let's engineer something together.
                             </p>
                         </motion.div>
 
-                        <div style={{ marginTop: "44px" }}>
+                        <div className="flex flex-col gap-6">
                             {contactInfo.map((info, i) => (
                                 <motion.a
-                                    key={info.label}
-                                    href={info.href}
-                                    initial={{ opacity: 0, x: -12 }}
+                                    key={info.label} href={info.href}
+                                    initial={{ opacity: 0, x: -10 }}
                                     animate={isInView ? { opacity: 1, x: 0 } : {}}
-                                    transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
-                                    className="flex items-center justify-center xl:justify-start gap-4 mb-5 text-center xl:text-left group no-underline"
-                                    style={{
-                                        color: "#ccc", transition: "color 0.2s",
-                                    }}
-                                    whileHover={{ x: 4 }}
+                                    transition={{ delay: 0.4 + (i * 0.1) }}
+                                    className="flex items-center gap-4 group no-underline"
                                 >
-                                    <div style={{
-                                        width: "36px", height: "36px", borderRadius: "10px",
-                                        background: "rgba(255,255,255,0.04)",
-                                        border: "1px solid rgba(255,255,255,0.06)",
-                                        display: "flex", alignItems: "center", justifyContent: "center",
-                                        fontSize: "1rem", color: "#666", flexShrink: 0,
-                                    }}>
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.03] border border-white/[0.05] text-neutral-500 transition-all group-hover:bg-cyan-500/10 group-hover:text-cyan-400 group-hover:border-cyan-500/20">
                                         {info.icon}
                                     </div>
                                     <div>
-                                        <p style={{ fontSize: "0.6rem", color: "#444", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "2px", fontWeight: 700 }}>{info.label}</p>
-                                        <p style={{ fontSize: "0.9rem", fontWeight: 500, color: "#ddd" }}>{info.value}</p>
+                                        <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-600 mb-1">{info.label}</p>
+                                        <p className="text-neutral-200 font-medium group-hover:text-white transition-colors">{info.value}</p>
                                     </div>
                                 </motion.a>
                             ))}
+                        </div>
 
-                            {/* Social links */}
-                            <motion.div
-                                className="flex justify-center xl:justify-start gap-3 mt-8"
-                                initial={{ opacity: 0 }}
-                                animate={isInView ? { opacity: 1 } : {}}
-                                transition={{ delay: 0.8 }}
-                            >
-                                {[
-                                    { href: "https://github.com/Saif-Uddin0", icon: <FiGithub /> },
-                                    { href: "https://www.linkedin.com/in/saif-uddin0/", icon: <FiLinkedin /> },
-                                ].map((s) => (
-                                    <motion.a
-                                        key={s.href} href={s.href} target="_blank" rel="noopener noreferrer"
-                                        className="social-icon"
-                                        whileHover={{ y: -3, background: "rgba(255,255,255,0.1)" }}
-                                        style={{ transition: "background 0.2s" }}
-                                    >
-                                        {s.icon}
-                                    </motion.a>
-                                ))}
-                            </motion.div>
+                        <div className="flex gap-4 mt-4">
+                            {[
+                                { href: "https://github.com/Saif-Uddin0", icon: <FiGithub size={20} /> },
+                                { href: "https://linkedin.com/in/saif-uddin0/", icon: <FiLinkedin size={20} /> },
+                            ].map((s, i) => (
+                                <motion.a
+                                    key={i} href={s.href} target="_blank" rel="noopener noreferrer"
+                                    className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.03] border border-white/[0.05] text-neutral-500 hover:bg-white hover:text-black transition-all"
+                                    whileHover={{ y: -5 }}
+                                >
+                                    {s.icon}
+                                </motion.a>
+                            ))}
                         </div>
                     </div>
 
-                    {/* ── Right: Form ── */}
+                    {/* Right: Form */}
                     <motion.div
-                        initial={{ opacity: 0, x: 24 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.15 }}
-                        style={{ position: "relative" }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="relative rounded-[40px] border border-white/5 bg-white/[0.02] p-10 xl:p-14 backdrop-blur-3xl overflow-hidden"
                     >
-                        {/* Subtle glow behind card */}
-                        <div style={{
-                            position: "absolute", top: "-40px", right: "-40px",
-                            width: "200px", height: "200px",
-                            background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-                            pointerEvents: "none",
-                        }} />
-
-                        <form
-                            onSubmit={handleSubmit}
-                            style={{
-                                padding: "48px 52px",
-                                background: "rgba(255,255,255,0.015)",
-                                border: "1px solid rgba(255,255,255,0.07)",
-                                borderRadius: "28px",
-                                backdropFilter: "blur(16px)",
-                                position: "relative",
-                                overflow: "hidden",
-                            }}
-                        >
-                            {/* Top inner accent */}
-                            <div style={{
-                                position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
-                                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
-                            }} />
-
-                            {/* Form header */}
-                            <div style={{ marginBottom: "36px" }}>
-                                <p style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.16em", color: "#555", textTransform: "uppercase", margin: "0 0 8px" }}>
-                                    Send a message
-                                </p>
-                                <h3 style={{ margin: 0, fontSize: "1.4rem", fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>
-                                    Start a Conversation
-                                </h3>
+                        <div className="absolute top-0 right-0 h-40 w-40 bg-cyan-500/5 blur-[80px]" />
+                        
+                        <div className="relative z-10">
+                            <div className="mb-10">
+                                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-neutral-600 mb-2 block">Send Message</span>
+                                <h3 className="text-3xl font-bold text-white tracking-tight">Start a Conversation</h3>
                             </div>
 
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="form-row">
-                                <FormField label="Your name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
-                                <FormField label="Email address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
-                            </div>
-                            <FormField label="Subject" name="subject" value={formData.subject} onChange={handleChange} placeholder="Project Collaboration" />
-                            <div style={{ position: "relative" }}>
-                                <FormField label="Your message" name="message" value={formData.message} onChange={handleChange} placeholder="Tell me about your project..." textarea required />
-                                {/* Character count */}
-                                {formData.message.length > 0 && (
-                                    <span style={{
-                                        position: "absolute", bottom: "8px", right: "0",
-                                        fontSize: "0.68rem", color: "#444",
-                                    }}>
-                                        {formData.message.length} chars
-                                    </span>
-                                )}
-                            </div>
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} placeholder="Saif Uddin" required />
+                                    <FormField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="saif@dev.com" required />
+                                </div>
+                                <FormField label="Subject" name="subject" value={formData.subject} onChange={handleChange} placeholder="Project Inquiry" />
+                                <FormField label="Message" name="message" value={formData.message} onChange={handleChange} placeholder="Hi Saif, I would like to discuss..." textarea required />
 
-                            {/* Submit button */}
-                            <div style={{ marginTop: "8px" }}>
                                 <motion.button
                                     type="submit"
                                     disabled={status === "loading"}
-                                    style={{
-                                        width: "100%", padding: "17px",
-                                        background: status === "loading" ? "var(--bg-elevated)" : "var(--accent)",
-                                        color: status === "loading" ? "var(--text-muted)" : "var(--bg-primary)",
-                                        borderRadius: "16px",
-                                        fontWeight: 700, fontSize: "0.95rem",
-                                        display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-                                        cursor: status === "loading" ? "not-allowed" : "pointer",
-                                        border: "1px solid var(--border-subtle)",
-                                        boxShadow: status === "loading" ? "none" : "0 8px 32px var(--accent-dim)",
-                                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                        letterSpacing: "0.01em",
-                                    }}
-                                    whileHover={status !== "loading" ? { 
-                                        y: -2, 
-                                        boxShadow: "0 16px 48px var(--accent-dim)",
-                                        filter: "brightness(1.1)"
-                                    } : {}}
+                                    whileHover={status === "idle" ? { scale: 1.02 } : {}}
                                     whileTap={{ scale: 0.98 }}
+                                    className="mt-4 flex w-full items-center justify-center gap-3 rounded-2xl bg-white py-5 text-sm font-bold text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_20px_40px_rgba(255,255,255,0.15)] shadow-xl"
                                 >
                                     {status === "loading" ? (
                                         <>
-                                            <motion.span
-                                                animate={{ rotate: 360 }}
-                                                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                                                style={{ display: "inline-block", fontSize: "1rem" }}
-                                            >
-                                                <FiSend />
-                                            </motion.span>
-                                            Sending…
+                                            <FiSend className="animate-pulse" />
+                                            Gearing up...
                                         </>
                                     ) : (
                                         <>
@@ -434,30 +315,12 @@ export default function Contact() {
                                         </>
                                     )}
                                 </motion.button>
-                            </div>
-
-                            {status === "error" && !toast && (
-                                <p style={{ color: "#f87171", fontSize: "0.82rem", marginTop: "14px", textAlign: "center" }}>
-                                    {errorMessage}
-                                </p>
-                            )}
-                        </form>
+                            </form>
+                        </div>
                     </motion.div>
 
                 </div>
             </div>
-
-            <style jsx>{`
-                @media (max-width: 900px) {
-                    .contact-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 56px !important;
-                    }
-                    .form-row {
-                        grid-template-columns: 1fr !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }
