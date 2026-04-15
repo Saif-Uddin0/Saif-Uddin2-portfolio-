@@ -9,7 +9,7 @@ const KNOWLEDGE_BASE = [
     id: "who",
     question: "Who is Saif Uddin?",
     keywords: ["who", "saif", "identity", "about"],
-    answer: "I’m a MERN Stack Developer driven by the challenge of transforming complex requirements into high-performance, user-centric web architectures. Currently completing my Diploma in Computer Science at Feni Computer Institute with a 3.50+ CGPA, I combine academic precision with extensive hands-on engineering experience. My philosophy is built on 'Quality Defined'—striking a perfect balance between robust back-end logic and sleek, modern front-end interfaces that feel as effortless as they are powerful.",
+    answer: "I am a MERN Stack Developer driven by the challenge of transforming complex requirements into high-performance, user-centric web architectures. Currently completing my Diploma in Computer Science at Feni Computer Institute with a 3.50+ CGPA, I combine academic precision with extensive hands-on engineering experience. My philosophy is built on 'Quality Defined'—striking a perfect balance between robust back-end logic and sleek, modern front-end interfaces that feel as effortless as they are powerful.",
     icon: <FiUser />
   },
   {
@@ -60,7 +60,7 @@ const AIIcon = ({ isOpen }: { isOpen: boolean }) => (
           exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
           className="absolute flex items-center justify-center"
         >
-          <FiX size={28} className="text-neutral-900 dark:text-neutral-100" />
+          <FiX size={28} className="text-white" />
         </motion.div>
       ) : (
         <motion.div
@@ -71,14 +71,14 @@ const AIIcon = ({ isOpen }: { isOpen: boolean }) => (
           className="absolute flex items-center justify-center"
         >
           <div className="relative">
-            <FiCpu size={28} className="text-neutral-900 dark:text-neutral-100" />
+            <FiCpu size={28} className="text-white" />
             <motion.div
               animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.3, 0.6, 0.3]
               }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="absolute top-1/2 left-1/2 w-5 h-5 rounded-full bg-neutral-400/20 dark:bg-white/20 blur-[5px] -translate-x-1/2 -translate-y-1/2 -z-10"
+              className="absolute top-1/2 left-1/2 w-5 h-5 rounded-full bg-cyan-400/30 blur-[5px] -translate-x-1/2 -translate-y-1/2 -z-10"
             />
           </div>
         </motion.div>
@@ -151,18 +151,18 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            className="w-[380px] h-[580px] flex flex-col overflow-hidden mb-5 shadow-2xl rounded-[24px] bg-white dark:bg-[#0d0b18] border border-neutral-200 dark:border-white/10"
+            className="w-[380px] h-[580px] flex flex-col overflow-hidden mb-5 shadow-[0_20px_60px_rgba(0,0,0,0.8)] rounded-[24px] bg-[#050510] border border-white/10"
           >
             {/* Header */}
-            <div className="p-6 flex justify-between items-center border-b border-neutral-100 dark:border-white/5">
+            <div className="p-6 flex justify-between items-center border-b border-white/5 bg-[#080816]">
               <div className="flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full animate-pulse bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                <span className="font-bold tracking-tight text-neutral-900 dark:text-white">Saif AI Assistant</span>
+                <div className="w-2.5 h-2.5 rounded-full animate-pulse bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]" />
+                <span className="font-bold tracking-tight text-white/90">Saif AI Assistant</span>
               </div>
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-full transition-colors text-neutral-400 hover:text-neutral-600 dark:hover:text-white"
+                className="p-1.5 rounded-full transition-colors text-white/40 hover:text-white"
               >
                 <FiX size={20} />
               </motion.button>
@@ -171,17 +171,17 @@ export default function Chatbot() {
             {/* Messages */}
             <div
               ref={scrollRef}
-              className="flex-1 p-6 overflow-y-auto flex flex-col gap-4 scrollbar-hide"
+              className="flex-1 p-6 overflow-y-auto flex flex-col gap-4 scrollbar-hide bg-[#050510]"
             >
               {messages.map((msg, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: msg.role === "bot" ? -10 : 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className={`max-w-[85%] p-4 text-[0.92rem] leading-relaxed shadow-sm ${
+                  className={`max-w-[85%] p-4 text-[0.92rem] leading-relaxed shadow-lg ${
                     msg.role === "bot" 
-                      ? "self-start bg-neutral-100 dark:bg-white/5 text-neutral-800 dark:text-neutral-100 rounded-[18px_18px_18px_4px] border border-neutral-200/50 dark:border-white/5" 
-                      : "self-end bg-neutral-900 dark:bg-white text-white dark:text-black rounded-[18px_18px_4px_18px]"
+                      ? "self-start bg-white/5 text-neutral-300 rounded-[18px_18px_18px_4px] border border-white/5" 
+                      : "self-end bg-cyan-600/90 text-white rounded-[18px_18px_4px_18px] border border-cyan-400/20"
                   }`}
                 >
                   {msg.content}
@@ -189,24 +189,24 @@ export default function Chatbot() {
               ))}
 
               {isTyping && (
-                <div className="self-start flex gap-1 items-center px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5">
-                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.3s] bg-neutral-400" />
-                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.15s] bg-neutral-400" />
-                  <span className="w-1.5 h-1.5 rounded-full animate-bounce bg-neutral-400" />
+                <div className="self-start flex gap-1 items-center px-4 py-2 rounded-full bg-white/5">
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.3s] bg-cyan-500/60" />
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.15s] bg-cyan-500/60" />
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce bg-cyan-500/60" />
                 </div>
               )}
             </div>
 
             {/* Quick Actions */}
-            <div className="px-6 py-4 flex flex-col gap-3 bg-neutral-50 dark:bg-black/20 border-t border-neutral-100 dark:border-white/5">
-              <span className="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Suggestions</span>
+            <div className="px-6 py-4 flex flex-col gap-3 bg-[#080816] border-t border-white/5">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-white/30">Suggestions</span>
               <div className="flex flex-wrap gap-2">
                 {KNOWLEDGE_BASE.slice(0, 4).map(item => (
                   <motion.button
                     key={item.id}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
                     onClick={() => handleQuestion(item.id)}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all bg-white dark:bg-white/5 border border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
+                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all bg-white/5 border border-white/10 text-white/50 hover:text-white"
                   >
                     {item.question.split(' ').slice(-2).join(' ')}
                   </motion.button>
@@ -217,19 +217,19 @@ export default function Chatbot() {
             {/* Input Area */}
             <form 
               onSubmit={handleSendMessage}
-              className="p-4 flex gap-2 bg-white dark:bg-[#0d0b18] border-t border-neutral-100 dark:border-white/5"
+              className="p-4 flex gap-2 bg-[#0a0a1f] border-t border-white/5"
             >
               <input
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 rounded-xl px-4 py-2 text-sm transition-all outline-none bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:ring-2 focus:ring-neutral-200 dark:focus:ring-white/10"
+                className="flex-1 rounded-xl px-4 py-2 text-sm transition-all outline-none bg-black/40 border border-white/10 text-white placeholder:text-white/20 focus:ring-1 focus:ring-cyan-500/50"
               />
               <button
                 type="submit"
                 disabled={!inputMessage.trim()}
-                className="w-10 h-10 flex items-center justify-center rounded-xl hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all bg-neutral-900 dark:bg-white text-white dark:text-black shadow-lg"
+                className="w-10 h-10 flex items-center justify-center rounded-xl hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all bg-cyan-600 text-white shadow-[0_0_15px_rgba(6,182,212,0.3)]"
               >
                 <FiSend size={18} />
               </button>
@@ -243,7 +243,7 @@ export default function Chatbot() {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
-        className="w-[65px] h-[65px] rounded-full flex items-center justify-center cursor-pointer shadow-2xl bg-neutral-900 dark:bg-white text-white dark:text-black border border-white/10 dark:border-black/10"
+        className="w-[65px] h-[65px] rounded-full flex items-center justify-center cursor-pointer shadow-[0_10px_40px_rgba(0,0,0,0.5)] bg-[#050510] border border-white/10 text-white"
       >
         <AIIcon isOpen={isOpen} />
       </motion.button>
