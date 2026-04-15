@@ -58,9 +58,9 @@ const AIIcon = ({ isOpen }: { isOpen: boolean }) => (
           initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
           animate={{ opacity: 1, rotate: 0, scale: 1 }}
           exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
-          className="absolute flex items-center justify-center text-[var(--accent)]"
+          className="absolute flex items-center justify-center"
         >
-          <FiX size={28} />
+          <FiX size={28} className="text-neutral-900 dark:text-neutral-100" />
         </motion.div>
       ) : (
         <motion.div
@@ -68,17 +68,17 @@ const AIIcon = ({ isOpen }: { isOpen: boolean }) => (
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          className="absolute flex items-center justify-center text-[var(--bg-primary)]"
+          className="absolute flex items-center justify-center"
         >
           <div className="relative">
-            <FiCpu size={28} />
+            <FiCpu size={28} className="text-neutral-900 dark:text-neutral-100" />
             <motion.div
               animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.3, 0.6, 0.3]
               }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="absolute top-1/2 left-1/2 w-5 h-5 rounded-full bg-[var(--white)]/20 blur-[5px] -translate-x-1/2 -translate-y-1/2 -z-10"
+              className="absolute top-1/2 left-1/2 w-5 h-5 rounded-full bg-neutral-400/20 dark:bg-white/20 blur-[5px] -translate-x-1/2 -translate-y-1/2 -z-10"
             />
           </div>
         </motion.div>
@@ -151,30 +151,18 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            className="w-[380px] h-[580px] flex flex-col overflow-hidden mb-5 shadow-2xl rounded-[24px]"
-            style={{ 
-              backgroundColor: "var(--bg-secondary)", 
-              border: "1px solid var(--border-subtle)",
-              backdropFilter: "blur(20px)"
-            }}
+            className="w-[380px] h-[580px] flex flex-col overflow-hidden mb-5 shadow-2xl rounded-[24px] bg-white dark:bg-[#0d0b18] border border-neutral-200 dark:border-white/10"
           >
             {/* Header */}
-            <div 
-              className="p-6 flex justify-between items-center"
-              style={{ borderBottom: "1px solid var(--border-subtle)" }}
-            >
+            <div className="p-6 flex justify-between items-center border-b border-neutral-100 dark:border-white/5">
               <div className="flex items-center gap-3">
-                <div 
-                  className="w-2.5 h-2.5 rounded-full animate-pulse" 
-                  style={{ backgroundColor: "var(--accent)", boxShadow: "0 0 8px var(--accent-dim)" }}
-                />
-                <span className="font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>Saif AI Assistant</span>
+                <div className="w-2.5 h-2.5 rounded-full animate-pulse bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                <span className="font-bold tracking-tight text-neutral-900 dark:text-white">Saif AI Assistant</span>
               </div>
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-full transition-colors"
-                style={{ color: "var(--text-muted)" }}
+                className="p-1.5 rounded-full transition-colors text-neutral-400 hover:text-neutral-600 dark:hover:text-white"
               >
                 <FiX size={20} />
               </motion.button>
@@ -190,49 +178,35 @@ export default function Chatbot() {
                   key={i}
                   initial={{ opacity: 0, x: msg.role === "bot" ? -10 : 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className={`max-w-[85%] p-4 text-[0.92rem] leading-relaxed shadow-sm`}
-                  style={{
-                    alignSelf: msg.role === "bot" ? "flex-start" : "flex-end",
-                    backgroundColor: msg.role === "bot" ? "var(--bg-elevated)" : "var(--accent)",
-                    color: msg.role === "bot" ? "var(--text-primary)" : "var(--bg-primary)",
-                    borderRadius: msg.role === "bot" ? "18px 18px 18px 4px" : "18px 18px 4px 18px",
-                    border: msg.role === "bot" ? "1px solid var(--border-subtle)" : "none"
-                  }}
+                  className={`max-w-[85%] p-4 text-[0.92rem] leading-relaxed shadow-sm ${
+                    msg.role === "bot" 
+                      ? "self-start bg-neutral-100 dark:bg-white/5 text-neutral-800 dark:text-neutral-100 rounded-[18px_18px_18px_4px] border border-neutral-200/50 dark:border-white/5" 
+                      : "self-end bg-neutral-900 dark:bg-white text-white dark:text-black rounded-[18px_18px_4px_18px]"
+                  }`}
                 >
                   {msg.content}
                 </motion.div>
               ))}
 
               {isTyping && (
-                <div 
-                  className="self-start flex gap-1 items-center px-4 py-2 rounded-full"
-                  style={{ backgroundColor: "var(--bg-elevated)" }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.3s]" style={{ backgroundColor: "var(--text-muted)" }} />
-                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.15s]" style={{ backgroundColor: "var(--text-muted)" }} />
-                  <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: "var(--text-muted)" }} />
+                <div className="self-start flex gap-1 items-center px-4 py-2 rounded-full bg-neutral-100 dark:bg-white/5">
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.3s] bg-neutral-400" />
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.15s] bg-neutral-400" />
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce bg-neutral-400" />
                 </div>
               )}
             </div>
 
             {/* Quick Actions */}
-            <div 
-              className="px-6 py-4 flex flex-col gap-3"
-              style={{ backgroundColor: "var(--bg-primary)", borderTop: "1px solid var(--border-subtle)" }}
-            >
-              <span className="text-[10px] uppercase tracking-widest font-bold" style={{ color: "var(--text-muted)" }}>Suggestions</span>
+            <div className="px-6 py-4 flex flex-col gap-3 bg-neutral-50 dark:bg-black/20 border-t border-neutral-100 dark:border-white/5">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Suggestions</span>
               <div className="flex flex-wrap gap-2">
                 {KNOWLEDGE_BASE.slice(0, 4).map(item => (
                   <motion.button
                     key={item.id}
-                    whileHover={{ scale: 1.05, filter: "brightness(1.2)" }}
+                    whileHover={{ scale: 1.05 }}
                     onClick={() => handleQuestion(item.id)}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
-                    style={{ 
-                      backgroundColor: "var(--bg-elevated)", 
-                      border: "1px solid var(--border-subtle)",
-                      color: "var(--text-secondary)"
-                    }}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all bg-white dark:bg-white/5 border border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
                   >
                     {item.question.split(' ').slice(-2).join(' ')}
                   </motion.button>
@@ -243,27 +217,19 @@ export default function Chatbot() {
             {/* Input Area */}
             <form 
               onSubmit={handleSendMessage}
-              className="p-4 flex gap-2"
-              style={{ backgroundColor: "var(--bg-secondary)", borderTop: "1px solid var(--border-subtle)" }}
+              className="p-4 flex gap-2 bg-white dark:bg-[#0d0b18] border-t border-neutral-100 dark:border-white/5"
             >
               <input
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Ask me anything about Saif..."
-                className="flex-1 rounded-xl px-4 py-2 text-sm transition-all outline-none"
-                style={{ 
-                  backgroundColor: "var(--bg-elevated)", 
-                  border: "1px solid var(--border-subtle)",
-                  color: "var(--text-primary)",
-                  boxShadow: "inset 0 2px 4px rgba(0,0,0,0.05)"
-                }}
+                placeholder="Ask me anything..."
+                className="flex-1 rounded-xl px-4 py-2 text-sm transition-all outline-none bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:ring-2 focus:ring-neutral-200 dark:focus:ring-white/10"
               />
               <button
                 type="submit"
                 disabled={!inputMessage.trim()}
-                className="w-10 h-10 flex items-center justify-center rounded-xl hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all font-bold"
-                style={{ backgroundColor: "var(--accent)", color: "var(--bg-primary)" }}
+                className="w-10 h-10 flex items-center justify-center rounded-xl hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all bg-neutral-900 dark:bg-white text-white dark:text-black shadow-lg"
               >
                 <FiSend size={18} />
               </button>
@@ -277,8 +243,7 @@ export default function Chatbot() {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
-        className="w-[65px] h-[65px] rounded-full flex items-center justify-center cursor-pointer shadow-xl"
-        style={{ backgroundColor: "var(--accent)", color: "var(--bg-primary)" }}
+        className="w-[65px] h-[65px] rounded-full flex items-center justify-center cursor-pointer shadow-2xl bg-neutral-900 dark:bg-white text-white dark:text-black border border-white/10 dark:border-black/10"
       >
         <AIIcon isOpen={isOpen} />
       </motion.button>
