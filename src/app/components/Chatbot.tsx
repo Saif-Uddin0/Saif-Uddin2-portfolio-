@@ -151,7 +151,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            className="w-[380px] h-[580px] bg-white/95 dark:bg-neutral-950/95 backdrop-blur-2xl border border-neutral-200 dark:border-white/10 rounded-[24px] flex flex-col overflow-hidden mb-5 shadow-2xl"
+            className="w-[380px] h-[580px] bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-white/10 rounded-[24px] flex flex-col overflow-hidden mb-5 shadow-2xl"
           >
             {/* Header */}
             <div className="p-6 border-b border-neutral-100 dark:border-white/5 flex justify-between items-center">
@@ -224,7 +224,7 @@ export default function Chatbot() {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask me anything about Saif..."
-                className="flex-1 bg-neutral-100 dark:bg-white/5 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-neutral-200 dark:focus:ring-white/10 transition-all outline-none"
+                className="flex-1 bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10 rounded-xl px-4 py-2 text-sm text-neutral-900 dark:text-white placeholder:text-neutral-500 dark:placeholder:text-neutral-400 focus:ring-2 focus:ring-neutral-200 dark:focus:ring-white/10 transition-all outline-none"
               />
               <button
                 type="submit"
