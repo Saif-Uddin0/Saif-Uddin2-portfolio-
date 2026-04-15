@@ -206,7 +206,7 @@ export default function Chatbot() {
                     key={item.id}
                     whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
                     onClick={() => handleQuestion(item.id)}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all bg-white/5 border border-white/10 text-white/50 hover:text-white"
+                    className="px-3 py-1.5 rounded-full text-xs font-medium transition-all bg-white/5 border border-white/10 text-white/70 hover:text-white"
                   >
                     {item.question.split(' ').slice(-2).join(' ')}
                   </motion.button>
@@ -224,7 +224,7 @@ export default function Chatbot() {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 rounded-xl px-4 py-2 text-sm transition-all outline-none bg-black/40 border border-white/10 text-white placeholder:text-white/20 focus:ring-1 focus:ring-cyan-500/50"
+                className="flex-1 rounded-xl px-4 py-2 text-sm transition-all outline-none bg-black/40 border border-white/10 text-white placeholder:text-white/40 focus:ring-1 focus:ring-cyan-500/50"
               />
               <button
                 type="submit"
