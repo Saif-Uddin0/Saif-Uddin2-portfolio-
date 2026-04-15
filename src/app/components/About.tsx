@@ -129,7 +129,7 @@ export default function About() {
                             </div>
 
                             <div className="flex flex-wrap gap-10 items-center justify-center xl:justify-start">
-                                <a href="https://drive.google.com/file/d/1HcoKzY339n3Q1AlCa5CVkpLL6YQ6UhoL/view" target="_blank" className="btn-primary" style={{ padding: "20px 56px", borderRadius: "12px", fontSize: "1rem", fontWeight: 800 }}>
+                                <a href="/samio_cv.pdf" download target="_blank" className="btn-primary" style={{ padding: "20px 56px", borderRadius: "12px", fontSize: "1rem", fontWeight: 800 }}>
                                     Download CV
                                 </a>
                                 <a href="#contact" className="group flex items-center gap-5 transition-all no-underline" style={{ color: "var(--text-secondary)" }}>
